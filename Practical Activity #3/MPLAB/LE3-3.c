@@ -46,54 +46,25 @@ void interrupt ISRT()
 			VAL = PORTD & 0x0F;
 			
 			if (VAL == 0x00)
-			{
-				PORTC = 0x01;
-			} 
-			
+				currentVAL = 0x01;
 			if (VAL == 0x01)
-			{
-				PORTC = 0x02;
-			}
-			
+				currentVAL = 0x02;
 			if (VAL == 0x02)
-			{
-				PORTC = 0x03;
-			}
-			
+				currentVAL = 0x03;
 			if (VAL == 0x04)
-			{
-				PORTC = 0x04;
-			}
-			
+				currentVAL = 0x04;
 			if (VAL == 0x05)
-			{
-				PORTC = 0x05;
-			}
-			
+				currentVAL = 0x05;
 			if (VAL == 0x06)
-			{
-				PORTC = 0x06;
-			}
-			
+				currentVAL = 0x06;
 			if (VAL == 0x08)
-			{
-				PORTC = 0x07;
-			}
-			
+				currentVAL = 0x07;
 			if (VAL == 0x09)
-			{
-				PORTC = 0x08;
-			}
-			
+				currentVAL = 0x08;
 			if (VAL == 0x0A)
-			{
-				PORTC = 0x09;
-			}
-			
+				currentVAL = 0x09;
 			if (VAL == 0x0D)
-			{
-				PORTC = 0x00;
-			}
+				currentVAL = 0x00;
 		}
 		
 		count_flag = 1;
@@ -108,7 +79,7 @@ int main ()
 	TRISC = 0x00;
 	TRISD = 0xFF;
 	
-	OPTION_REG = 0x04; 	// PS2:PS0 - prescaler 1:32
+	OPTION_REG = 0x05; 	// PS2:PS0 - prescaler 1:64
 						// PSA - prescaler assignment to TMR0
 						// T0CS - internal instruction cycle clock
 						// T0SE - not used since clock is internal
@@ -120,10 +91,36 @@ int main ()
 	PORTC = 0x00;
 	while (1)
 	{
-		PORTA = 0x01;
-		delay(122);
-		PORTA = 0x00;
-		delay(122);		
+		if (currentVAL == 0xA)
+		{
+			PORTC = 0x00;
+			currentVAL = 0x00;
+		}
+		else
+		{
+			if (currentVAL == 0x00)
+				PORTC == 0x00;
+			else if (currentVAL == 0x01)
+				PORTC = 0x01;
+			else if (currentVAL == 0x02)
+				PORTC = 0x02;
+			else if (currentVAL == 0x03)
+				PORTC = 0x03;
+			else if (currentVAL == 0x04)
+				PORTC = 0x04;
+			else if (currentVAL == 0x05)
+				PORTC = 0x05;
+			else if (currentVAL == 0x06)
+				PORTC = 0x06;
+			else if (currentVAL == 0x07)
+				PORTC = 0x07;
+			else if (currentVAL == 0x08)
+				PORTC = 0x08;
+			else if (currentVAL == 0x09)
+				PORTC = 0x09;
+			currentVAL++;
+		}
+		delay(61);
 	}
 }
 
