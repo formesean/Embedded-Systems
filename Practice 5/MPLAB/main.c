@@ -18,18 +18,25 @@ unsigned char counter = 0;
 int count = 0;
 bit count_flag = 0;
 
+const double delayMap[16] = {
+    122 * 0.1, 122 * 0.2, 122 * 0.3, 0, // 0x00 - 0x03
+    122 * 0.4, 122 * 0.5, 122 * 0.6, 0, // 0x04 - 0x07
+    122 * 0.7, 122 * 0.8, 122 * 0.9, 0, // 0x08 - 0x0B
+    0, 122, 0, 0,                       // 0x0C - 0x0F
+};
+
 void delay(int num)
 {
-	int flags = 0;
+  int flags = 0;
 
-	while (flags < num)
-	{
-		if (count_flag)
-		{
-			count_flag = 0;
-			flags++;
-		}
-	}
+  while (flags < num)
+  {
+    if (count_flag)
+    {
+      count_flag = 0;
+      flags++;
+    }
+  }
 }
 
 void instCtrl(unsigned char INST)
@@ -77,32 +84,20 @@ void interrupt ISR()
     {
       VAL = PORTD & 0x0F;
 
-      if (VAL == 0x0C)
+      if (VAL < 16 && delayMap[VAL] != 0)
+      {
+        currentDelay = delayMap[VAL];
+      }
+
+      switch (VAL)
+      {
+      case 0x0C:
         count = 1;
-
-      if (VAL == 0x0E)
+        break;
+      case 0x0E:
         count = 0;
-
-      if (VAL == 0x00)
-        currentDelay = 122 * 0.1;
-      if (VAL == 0x01)
-        currentDelay = 122 * 0.2;
-      if (VAL == 0x02)
-        currentDelay = 122 * 0.3;
-      if (VAL == 0x04)
-        currentDelay = 122 * 0.4;
-      if (VAL == 0x05)
-        currentDelay = 122 * 0.5;
-      if (VAL == 0x06)
-        currentDelay = 122 * 0.6;
-      if (VAL == 0x08)
-        currentDelay = 122 * 0.7;
-      if (VAL == 0x09)
-        currentDelay = 122 * 0.8;
-      if (VAL == 0x0A)
-        currentDelay = 122 * 0.9;
-      if (VAL == 0x0D)
-        currentDelay = 122;
+        break;
+      }
     }
 
     count_flag = 1;
@@ -110,10 +105,17 @@ void interrupt ISR()
   GIE = 1;
 }
 
+void updateLCD()
+{
+    dataCtrl(tens);
+    dataCtrl(ones);
+    instCtrl(0x80); // Move cursor to the beginning
+    delay(currentDelay);
+}
+
 void countUp()
 {
-  dataCtrl(tens);
-  dataCtrl(ones);
+  updateLCD();
   ones++;
 
   if (ones == 0x3A)
@@ -124,15 +126,11 @@ void countUp()
     if (tens == 0x3A)
       tens = 0x30;
   }
-
-  instCtrl(0x80);
-  delay(currentDelay);
 }
 
 void countDown()
 {
-  dataCtrl(tens);
-  dataCtrl(ones);
+  updateLCD();
   ones--;
 
   if (ones == 0x2F)
@@ -143,9 +141,6 @@ void countDown()
     if (tens == 0x2F)
       tens = 0x39;
   }
-
-  instCtrl(0x80);
-  delay(currentDelay);
 }
 
 void main()
@@ -156,9 +151,9 @@ void main()
   TRISD = 0x0F;
 
   OPTION_REG = 0x04;
-	T0IE = 1;
-	T0IF = 0;
-	GIE = 1;
+  T0IE = 1;
+  T0IF = 0;
+  GIE = 1;
 
   initLCD();
   instCtrl(0x80); // Move cursor to beginning
