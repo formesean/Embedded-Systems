@@ -15,7 +15,7 @@ unsigned char VAL;
 unsigned char currentVAL;
 double currentDelay = 122;
 unsigned char counter = 0;
-int count = 0;
+int count = 1;
 bit count_flag = 0;
 
 const double delayMap[16] = {
@@ -92,10 +92,10 @@ void interrupt ISR()
       switch (VAL)
       {
       case 0x0C:
-        count = 1;
+        count = 0;
         break;
       case 0x0E:
-        count = 0;
+        count = 1;
         break;
       }
     }
@@ -105,12 +105,41 @@ void interrupt ISR()
   GIE = 1;
 }
 
+void displayString(const char *str)
+{
+  while (*str)
+  {
+    dataCtrl(*str);
+    str++;
+  }
+}
+
+void clearLine()
+{
+  instCtrl(0xC8);
+  displayString("      ");
+  instCtrl(0xC8);
+}
+
 void updateLCD()
 {
-    dataCtrl(tens);
-    dataCtrl(ones);
-    instCtrl(0x80); // Move cursor to the beginning
-    delay(currentDelay);
+
+  if (count)
+  {
+    instCtrl(0xC3);
+    displayString(" Counter (Up) ");
+  }
+  else
+  {
+    instCtrl(0xC3);
+    displayString("Counter (Down)");
+  }
+
+
+  instCtrl(0x9D);
+  dataCtrl(tens);
+  dataCtrl(ones);
+  delay(currentDelay);
 }
 
 void countUp()
@@ -145,7 +174,6 @@ void countDown()
 
 void main()
 {
-
   TRISB = 0x01;
   TRISC = 0x00;
   TRISD = 0x0F;
@@ -156,13 +184,13 @@ void main()
   GIE = 1;
 
   initLCD();
-  instCtrl(0x80); // Move cursor to beginning
+  updateLCD();
 
   while (1)
   {
-    if (count == 0)
+    if (count)
       countUp();
-    else if (count == 1)
+    else
       countDown();
   }
 }
