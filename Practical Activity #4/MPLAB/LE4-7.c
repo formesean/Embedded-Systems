@@ -44,6 +44,8 @@ void main()
 
   while (1)
   {
+	  delay(122 * 0.5);
+	   
     if (RB1 == 1)
     {
       if (freq == 3)
@@ -55,13 +57,13 @@ void main()
       {
       case 1:
         PR2 = 0x3E;
-        break; // 1000 Hz
+        break; // 1000 Hz 0011 1110
       case 2:
         PR2 = 0x29;
         break; // 1500 Hz
       case 3:
-        PR2 = 0x05;
-        break; // 10000 Hz
+        PR2 = 0x0C;
+        break; // 5000 Hz
       }
     }
 
@@ -120,35 +122,35 @@ void main()
           CCP1CON = 0x1C;
           break;
         case 5:
-          CCPR1L = 0x25;
+          CCPR1L = 0x27;
           CCP1CON = 0x2C;
           break;
         }
       }
 
-      if (freq == 3) // 10000 Hz
+      if (freq == 3) // 5000 Hz
       {
         switch (duty)
         {
         case 1:
-          CCPR1L = 0x00;
-          CCP1CON = 0x3C;
+          CCPR1L = 0x01;
+          CCP1CON = 0x1C;
           break;
         case 2:
-          CCPR1L = 0x01;
-          CCP1CON = 0x2C;
-          break;
-        case 3:
           CCPR1L = 0x03;
           CCP1CON = 0x1C;
           break;
+        case 3:
+          CCPR1L = 0x06;
+          CCP1CON = 0x1C;
+          break;
         case 4:
-          CCPR1L = 0x04;
-          CCP1CON = 0x3C;
+          CCPR1L = 0x09;
+          CCP1CON = 0x2C;
           break;
         case 5:
-          CCPR1L = 0x05;
-          CCP1CON = 0x3C;
+          CCPR1L = 0x0C;
+          CCP1CON = 0x0C;
           break;
         }
       }
