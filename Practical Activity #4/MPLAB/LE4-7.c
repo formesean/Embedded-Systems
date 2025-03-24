@@ -44,8 +44,6 @@ void main()
 
   while (1)
   {
-    delay(122 * 0.5);
-
     if (RB1 == 1)
     {
       if (freq == 3)
@@ -56,14 +54,14 @@ void main()
       switch (freq)
       {
       case 1:
-        PR2 = 0x1869;
-        break; // 10 Hz
-      case 2:
-        PR2 = 0x270;
-        break; // 100 Hz
-      case 3:
         PR2 = 0x3E;
         break; // 1000 Hz
+      case 2:
+        PR2 = 0x29;
+        break; // 1500 Hz
+      case 3:
+        PR2 = 0x05;
+        break; // 10000 Hz
       }
     }
 
@@ -74,61 +72,7 @@ void main()
       else
         duty++;
 
-      if (freq == 1) // 10 Hz
-      {
-        switch (duty)
-        {
-        case 1:
-          CCPR1L = 0x71;
-          CCP1CON = 0x0C;
-          break;
-        case 2:
-          CCPR1L = 0x1A;
-          CCP1CON = 0x2C;
-          break;
-        case 3:
-          CCPR1L = 0x35;
-          CCP1CON = 0x0C;
-          break;
-        case 4:
-          CCPR1L = 0x4F;
-          CCP1CON = 0x2C;
-          break;
-        case 5:
-          CCPR1L = 0x31;
-          CCP1CON = 0x2C;
-          break;
-        }
-      }
-
-      if (freq == 2) // 100 Hz
-      {
-        switch (duty)
-        {
-        case 1:
-          CCPR1L = 0x3E;
-          CCP1CON = 0x2C;
-          break;
-        case 2:
-          CCPR1L = 0x9C;
-          CCP1CON = 0x1C;
-          break;
-        case 3:
-          CCPR1L = 0x38;
-          CCP1CON = 0x2C;
-          break;
-        case 4:
-          CCPR1L = 0xD4;
-          CCP1CON = 0x3C;
-          break;
-        case 5:
-          CCPR1L = 0x51;
-          CCP1CON = 0x3C;
-          break;
-        }
-      }
-
-      if (freq == 3) // 1000 Hz
+      if (freq == 1) // 1000 Hz
       {
         switch (duty)
         {
@@ -149,8 +93,62 @@ void main()
           CCP1CON = 0x0C;
           break;
         case 5:
-          CCPR1L = 0x3B;
+          CCPR1L = 0x38;
+          CCP1CON = 0x1C;
+          break;
+        }
+      }
+
+      if (freq == 2) // 1500 Hz
+      {
+        switch (duty)
+        {
+        case 1:
+          CCPR1L = 0x04;
+          CCP1CON = 0x1C;
+          break;
+        case 2:
+          CCPR1L = 0x0A;
           CCP1CON = 0x2C;
+          break;
+        case 3:
+          CCPR1L = 0x14;
+          CCP1CON = 0x3C;
+          break;
+        case 4:
+          CCPR1L = 0x1F;
+          CCP1CON = 0x1C;
+          break;
+        case 5:
+          CCPR1L = 0x25;
+          CCP1CON = 0x2C;
+          break;
+        }
+      }
+
+      if (freq == 3) // 10000 Hz
+      {
+        switch (duty)
+        {
+        case 1:
+          CCPR1L = 0x00;
+          CCP1CON = 0x3C;
+          break;
+        case 2:
+          CCPR1L = 0x01;
+          CCP1CON = 0x2C;
+          break;
+        case 3:
+          CCPR1L = 0x03;
+          CCP1CON = 0x1C;
+          break;
+        case 4:
+          CCPR1L = 0x04;
+          CCP1CON = 0x3C;
+          break;
+        case 5:
+          CCPR1L = 0x05;
+          CCP1CON = 0x3C;
           break;
         }
       }
