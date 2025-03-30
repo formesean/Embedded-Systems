@@ -1,0 +1,7 @@
+/MPLAB/*
+!/MPLAB/*.hex
+!/MPLAB/*.c
+
+/Proteus/*
+!/Proteus/*.pdsprj
+!/Proteus/*.pdsclip
