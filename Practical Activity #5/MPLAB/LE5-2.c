@@ -10,7 +10,7 @@
 #pragma config WRT = OFF
 #pragma config CP = OFF
 
-int count_flag = 1;
+int display_toggle = 0;
 
 void delay(int cnt)
 {
@@ -36,17 +36,8 @@ int readADC()
 
 float round_to_one_dec(float num)
 {
-  float rounded_num = round(num * 1000.0);
-
-  if ((int) (rounded_num) % 100 <= 49)
-    rounded_num = floor(rounded_num);
-  else
-    rounded_num = floor(rounded_num);
-
-  return rounded_num / 1000.0;
+  return round(num * 10.0) / 10.0;
 }
-
-
 
 void interrupt ISR()
 {
@@ -60,14 +51,28 @@ void interrupt ISR()
 
     float result_of_conversion = (float) d_value * 0.004911;
     float formatted_result = round_to_one_dec(result_of_conversion);
+    
     int whole = (int) formatted_result;
-    float decimal = formatted_result - whole;
-
-    unsigned int result = (whole << 4) | ((int) (decimal * 10) & 0x0F);
-    PORTB = result;
+    int decimal = (int) ((formatted_result - whole) * 10);
+    
+    if (display_toggle)
+    {
+	    PORTB = whole & 0x0F;
+	    RB4 = 0;
+	    RB5 = 1;
+	    RB6 = 1;
+    }
+    else
+    {
+	    PORTB = decimal & 0x0F;
+	    RB4 = 1;
+	    RB5 = 0;
+	    RB6 = 0;
+    }
+    
+    display_toggle = !display_toggle;
   }
 
-  delay(1000);
   GO = 1; // restart A/D conversion (ADCON0 register)
   GIE = 1;
 }
