@@ -1,0 +1,1 @@
+ rx.d  rx.p1:  D:/Embedded-Systems/Practice/Sync\ TX\ and\ RX/MPLAB/rx.c

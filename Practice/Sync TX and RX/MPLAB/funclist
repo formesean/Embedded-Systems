@@ -1,0 +1,5 @@
+_delay: CODE, 84 0 24
+_ISR: CODE, 59 0 25
+_main: CODE, 26 0 33
+__initialization: CODE, 21 0 1
+Total: 83
