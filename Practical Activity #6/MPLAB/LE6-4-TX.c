@@ -58,29 +58,29 @@ void interrupt ISR()
         ;
 
       if (VAL == 0x00)
-        currentVAL = 0x01;
+        currentVAL = '1';
       if (VAL == 0x01)
-        currentVAL = 0x02;
+        currentVAL = '2';
       if (VAL == 0x02)
-        currentVAL = 0x03;
+        currentVAL = '3';
       if (VAL == 0x04)
-        currentVAL = 0x04;
+        currentVAL = '4';
       if (VAL == 0x05)
-        currentVAL = 0x05;
+        currentVAL = '5';
       if (VAL == 0x06)
-        currentVAL = 0x06;
+        currentVAL = '6';
       if (VAL == 0x08)
-        currentVAL = 0x07;
+        currentVAL = '7';
       if (VAL == 0x09)
-        currentVAL = 0x08;
+        currentVAL = '8';
       if (VAL == 0x0A)
-        currentVAL = 0x09;
+        currentVAL = '9';
       if (VAL == 0x0C)
-        currentVAL = 0x0C;
+        currentVAL = '*';
       if (VAL == 0x0D)
-        currentVAL = 0x0A;
+        currentVAL = '0';
       if (VAL == 0x0E)
-        currentVAL = 0x0E;
+        currentVAL = '#';
     }
 
     count_flag = 1;

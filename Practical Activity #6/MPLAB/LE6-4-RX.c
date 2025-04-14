@@ -30,37 +30,37 @@ void main(void)
       ;            // wait until receive buffer is full
     currentVAL = RCREG; // read the receive register
 
-    if (currentVAL == 0x01)
+    if (currentVAL == '1')
       PORTB = 0x10;
 
-    if (currentVAL == 0x02)
+    if (currentVAL == '2')
       PORTB = 0x20;
 
-    if (currentVAL == 0x03)
+    if (currentVAL == '3')
       PORTB = 0x30;
 
-    if (currentVAL == 0x04)
+    if (currentVAL == '4')
       PORTB = 0x40;
 
-    if (currentVAL == 0x05)
+    if (currentVAL == '5')
       PORTB = 0x50;
 
-    if (currentVAL == 0x06)
+    if (currentVAL == '6')
       PORTB = 0x60;
 
-    if (currentVAL == 0x07)
+    if (currentVAL == '7')
       PORTB = 0x70;
 
-    if (currentVAL == 0x08)
+    if (currentVAL == '8')
       PORTB = 0x80;
 
-    if (currentVAL == 0x09)
+    if (currentVAL == '9')
       PORTB = 0x90;
 
-    if (currentVAL == 0x0A)
+    if (currentVAL == '0')
       PORTB = 0x00;
 
-    if (currentVAL == 0x0C || currentVAL == 0x0E)
+    if (currentVAL == '*' || currentVAL == '#')
       PORTB = 0x01;
   }
 }
