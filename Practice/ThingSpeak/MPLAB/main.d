@@ -1,0 +1,1 @@
+ main.d  main.p1:  D:/Embedded-Systems/Practice/ThingSpeak/main.c
