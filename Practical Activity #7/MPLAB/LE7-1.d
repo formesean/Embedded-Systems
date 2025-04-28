@@ -1,1 +1,0 @@
- LE7-1.d  LE7-1.p1:  D:/Embedded-Systems/Practical\ Activity\ #7/MPLAB/LE7-1.c

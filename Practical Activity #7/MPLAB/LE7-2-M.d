@@ -1,1 +1,0 @@
- LE7-2-M.d  LE7-2-M.p1:  D:/Embedded-Systems/Practical\ Activity\ #7/MPLAB/LE7-2-M.c
