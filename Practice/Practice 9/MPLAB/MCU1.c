@@ -12,7 +12,6 @@
 
 #define _XTAL_FREQ 4000000
 
-unsigned int myTMR0IF;
 float temp;
 int whole, decimal;
 
@@ -22,18 +21,13 @@ void interrupt ISR()
   if (INTF)
   {
     INTF = 0;
-    while (!TRMT)
-      ;
-    TXREG = whole;
 
-    while (!TRMT)
-      ;
-    TXREG = decimal;
-  }
-  else if (TMR0IF)
-  {
-    TMR0IF = 0;
-    myTMR0IF = 1;
+    if (TRMT)
+    {
+      TXREG = whole;
+      while (!TRMT);
+      TXREG = decimal 
+    }
   }
   GIE = 1;
 }
@@ -114,14 +108,9 @@ void main()
   TRISB = 0x01;
   TRISD = 0x00;
 
-  OPTION_REG = 0xC4;
-
   INTEDG = 1;
   INTF = 0;
   INTE = 1;
-
-  TMR0IF = 0;
-  TMR0IE = 1;
 
   GIE = 1;
 
