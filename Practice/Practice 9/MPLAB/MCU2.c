@@ -30,12 +30,10 @@ void main(void)
   {
     while (!RCIF)
       ; // wait until receive buffer is full
-    int whole = RCREG;
-    PORTB = whole;
+    PORTB = RCREG;
 
     while (!RCIF)
       ; // wait until receive buffer is full
-    int decimal = RCREG;
-    PORTD = decimal;
+    PORTD = RCREG;
   }
 }
