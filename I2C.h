@@ -3,6 +3,7 @@
 
 // Function Prototypes
 void init_I2C_Master(void);
+void init_I2C_Slave(unsigned char slave_add);
 void I2C_Wait(void);
 void I2C_Start(void);
 void I2C_Stop(void);
