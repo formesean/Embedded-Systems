@@ -1,6 +1,6 @@
 #include <xc.h>
 
-#include "i2c.h"
+#include "I2C.h"
 
 // Initializes the I2C master mode
 void init_I2C_Master(void)
@@ -12,6 +12,23 @@ void init_I2C_Master(void)
                   // receive idle
   SSPSTAT = 0x00; // slew rate enabled
   SSPADD = 0x09;  // clock frequency at 100 KHz (FOSC = 4MHz)
+}
+
+// Initializes the I2C slave mode
+void init_I2C_Slave(unsigned char slave_add)
+{
+  TRISC3 = 1;         // set RC3 (SCL) to input
+  TRISC4 = 1;         // set RC4 (SDA) to input
+  SSPCON = 0x36;      // SSP enabled, SCK release clock
+                      // I2C slave mode 7-bot address
+  SSPCON2 = 0x01;     // start condition idle, stop condition idle
+                      // receive idle
+  SSPSTAT = 0x80;     // slew rate control disabled
+  SSPADD = slave_add; // 7-bit slave address
+  SSPIE = 1;          // enable SSP interrupt
+  SSPIF = 0;          // clear interrupt flag
+  PEIE = 1;           // enable peripheral interrupt
+  GIE = 1;            // enable unmasked interrupt
 }
 
 // Waits until all I2C operations are finished
